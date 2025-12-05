@@ -7,7 +7,8 @@ En esta práctica se ha simulado un juego de billar en 3D utilizando:
 - **Ammo.js** para la física (colisiones, gravedad y cuerpos rígidos)
 - **TWEEN** para animar el palo y simular el golpe
 
-Enlace al vídeo de youtube: https://youtu.be/OHek2sLPfS0
+Enlace al vídeo de youtube: https://youtu.be/sFAJCR6qNEs
+
 Enlace al codesandbox: https://tmf6mw.csb.app/
 
 ---
