@@ -4,8 +4,8 @@
 En esta práctica se ha simulado un juego de billar en 3D utilizando:
 
 - **Three.js** para el renderizado del entorno
-- **Ammo.js** como motor físico encargado de las colisiones
-- **TWEEN** para la animación del tiro del jugador
+- **Ammo.js** para la física (colisiones, gravedad y cuerpos rígidos)
+- **TWEEN** para animar el palo y simular el golpe
 
 Enlace al vídeo de youtube:
 
@@ -16,10 +16,10 @@ Enlace al vídeo de youtube:
 Para la mesa se han desarrollado dos partes:
 
 ### Física de la mesa
-Mediante la función **`createTable()`** se generan los bordes físicos que sirven como límite del área de juego.
+Mediante la función **`createTable()`** se generan los bordes físicos que sirven como límite del área de juego y también la base. Estos tienen masa 0 para que sean estaticos.
 
 ### Modelo visual
-Con la función **`loadTable()`** se carga un **modelo 3D de la mesa**, el cual se superpone sobre la estructura física para mejorar el realismo visual.
+Con la función **`loadTable()`** se carga un modelo 3D de la mesa de billar de tipo **GLB** con **GLTFLoader**, el cual se superpone sobre la estructura física para mejorar el realismo visual.
 
 ---
 
@@ -54,7 +54,11 @@ Mejoras aplicadas:
 La función **`createStick()`** genera y muestra el palo del billar.  
 Este palo se mantiene siempre **alineado y rotando alrededor de la bola blanca** mediante la función **`positionStick()`**.
 
-El tiro se simula con **TWEEN**, desplazando el palo hacia adelante y transmitiendo impulso a la bola.
+El tiro se simula con **TWEEN**, desplazando el palo hacia adelante y transmitiendo impulso a la bola. La secuencia que se crea es la siguiente:
+
+  1. Retroceso
+  2. Avance rápido y cuando termina llama a **`hitWhiteBall()`** para simular el choque del palo con la bola y que esta se desplace
+  3. Retorno a la posición inicial
 
 ---
 
