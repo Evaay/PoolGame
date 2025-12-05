@@ -9,7 +9,9 @@ En esta práctica se ha simulado un juego de billar en 3D utilizando:
 
 Enlace al vídeo de youtube: https://youtu.be/sFAJCR6qNEs
 
+
 Enlace al codesandbox: https://tmf6mw.csb.app/
+
 
 ---
 
