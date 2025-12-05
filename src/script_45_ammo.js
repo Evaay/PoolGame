@@ -164,7 +164,7 @@ function initGraphics() {
   window.addEventListener("resize", onWindowResize);
 
   gui.add(pushStick, 'pushStick').name('Ver desde arriba');
-  gui.add(bola, "force", 0, 10, 0.5).name("Fuerza de tiro");
+  gui.add(bola, "force", 1, 10, 0.5).name("Fuerza de tiro");
 
 }
 
