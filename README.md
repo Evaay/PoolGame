@@ -60,6 +60,8 @@ El tiro se simula con **TWEEN**, desplazando el palo hacia adelante y transmitie
   2. Avance rápido y cuando termina llama a **`hitWhiteBall()`** para simular el choque del palo con la bola y que esta se desplace
   3. Retorno a la posición inicial
 
+Además, al darle a la pelota blanca con el palo, se insertó un sonido.
+
 ---
 
 ## Fondo del Escenario
