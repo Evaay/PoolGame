@@ -69,8 +69,10 @@ let pushStick = {
 }
 
 //bolas desaparecidas
-let removedBalls = [];
 let scoreBoard;
+
+let sound;
+let audioloaded = false;
 
 //Inicialización ammo
 Ammo(Ammo).then(start);
@@ -106,6 +108,21 @@ function initGraphics() {
   renderer.shadowMap.enabled = true;
   document.body.appendChild(renderer.domElement);
 
+  //Audio
+  const listener = new THREE.AudioListener();
+  camera.add(listener);
+  sound = new THREE.Audio(listener);
+  // Carga de sonido
+  const audioLoader = new THREE.AudioLoader();
+  //Fuente audio https://pixabay.com/users/freesound_community-46691455/
+  audioLoader.load("src/sticksound.mp3", function (buffer) {
+    sound.setBuffer(buffer);
+    sound.setLoop(false);
+    sound.setVolume(0.5);
+    audioloaded = true;
+    console.log("Sonido cargado");
+  });
+
   scoreBoard = document.createElement("div");
   scoreBoard.style.position = "absolute";
   scoreBoard.style.top = "10px";
@@ -119,7 +136,7 @@ function initGraphics() {
   controls.target.set(0, 2, 0);
   controls.update();
 
-  controls.maxDistance = 40;
+  controls.maxDistance = 30;
 
   textureLoader = new THREE.TextureLoader();
 
@@ -228,17 +245,33 @@ function createObjects() {
   loadTable();
   createBalls();
   createStick();
-  background();
+  const backgroundTexture = new THREE.TextureLoader().load(
+    "https://cdn.polyhaven.com/asset_img/primary/venice_sunset.png?height=760&quality=95"
+  );
+  background(backgroundTexture);
 }
 
-function background() {
+function background(texture = undefined) {
+  const material = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.BackSide });
+  //Textura
+  if (texture != undefined) {
+    material.map = texture;
+   }
+  const backgroundImage = new THREE.Mesh(
+    new THREE.SphereGeometry(200, 20, 20),
+    material
+  );
+  scene.add(backgroundImage);
+
   const loader = new GLTFLoader();
   loader.load(
-    "https://raw.githubusercontent.com/Evaay/models3d/main/gallery_museum_showroom_banquet_hall.glb",
+    "https://raw.githubusercontent.com/Evaay/models3d/main/kleeblatt_quest_home_environment.glb",
     (gltf) => {
       const model = gltf.scene;
-      model.scale.set(0.2, 0.3, 0.2);
-      model.position.set(0, -8, 0);
+      //model.scale.set(0.2, 0.3, 0.2);
+      model.scale.set(12,12,12);
+      //model.position.set(0, -8, 0);
+      model.position.set(0, -8.2, 0);
       scene.add(model);
     },
     undefined,
@@ -270,7 +303,12 @@ function tweens() {
     positionStick();
   })
   .delay(100)
-  .onComplete(() => hitWhiteBall())
+  .onComplete(() => {
+    hitWhiteBall();
+    if (audioloaded) {
+      sound.play();
+    }
+  })
   .chain(tween3);
 }
 
@@ -471,7 +509,6 @@ function createHoleWithPhysics(radius, pos, quat) {
 
   const body = createRigidBody(object2, shape2, 1, pos, quat);
   body.setCollisionFlags(2);
-  //Enlaza primitiva gráfica con física
   object2.userData.physicsBody = body;
   object2.userData.collided = false;
 
